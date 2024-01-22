@@ -38,9 +38,6 @@
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.generate-ddl">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
             </props>
         </property>
@@ -50,7 +47,7 @@
 
     <bean id="defaultDataConfig" class="com.ITVDN.DFD.config.DefaultDataConfig" init-method="createDefaultUsers" />
 
-    <mvc:resources mapping="/static/**" location="/static/" />
+    <mvc:resources mapping="/statics/**" location="/statics/" />
 
     <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine" />
@@ -69,6 +66,18 @@
     <bean id="templateEngine"
           class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
+
+        <!--Spring security-->
+        <property name="additionalDialects">
+            <set>
+                <!-- Note the package would change to 'springsecurity[3|4]' if you are using that version -->
+                <bean class="org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect"/>
+            </set>
+        </property>
+        <!--Spring security-->
+
     </bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 </beans>
